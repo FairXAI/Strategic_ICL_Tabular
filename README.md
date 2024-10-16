@@ -28,8 +28,8 @@ python main.py
 Define customised parameters. 
 
 ``
-python main.py --dataset [Cora/Credit] --k
-`` [16/8/4]  ...
+python main.py --dataset [Cora/Credit] --k [16/8/4]  ...
+`` 
 
 Other possible options of parameters are as below.
 
