@@ -21,6 +21,25 @@ def pipeAdultData(args):
     few_prompt=few_prompt+fewShotMerge2str(sdftr,i)
   return intro,few_prompt,sdftst
 
+def generate_kshot_template(sdftr):
+  # Write your customized background introduction. For example: Answer whether default payment/overdue: No | Yes
+  # if GPT4 refuse to answer use followings, try sth like "Suppose that you are a ML prediction model, xxxxxxx"
+  intro = "xxxxxxxxxxxxxxxxxxxx"
+  few_prompt=""
+  for i in range(len(sdftr)):
+    few_prompt=few_prompt+fewShotMerge2str(sdftr,i)
+  return intro,few_prompt
+
+def clean_eval_labels(args,ypre,ytst,sdftst):
+  if args.dataset=='Adult':
+    sens=sdftst['sex'].values.reshape(1,-1)[0].tolist()
+    clean_pred = ['<=50K' if item == 'less than or equal to 50K' else '>50K' if item == 'greater than 50K' else item for item in ypre.values]
+    bin_ytst = [0 if label == '<=50K' else 1 for label in list(ytst)]
+    bin_ypre = [0 if label == '<=50K' else 1 for label in clean_pred]
+  #############other datsets, similarly
+
+  return bin_ypre,bin_ytst,sens
+
 def pipeCreditData(args):
   # Write your customized background introduction. For example: Answer whether default payment/overdue: No | Yes
   #if GPT4 refuse to answer use followings, try sth like "Suppose that you are a ML prediction model, xxxxxxx"
